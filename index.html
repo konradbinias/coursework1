@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title>Coursework 1</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div id="lessons">
+      <div class="card" v-for="(lesson, index) in lessons">
+
+        <div class="product-info">
+          <div class="details">
+            <h4>Subject: {{ lesson.subject }}</h4>
+            <h4>Location: {{ lesson.location }}</h4>
+            <h4>Price: {{ lesson.price }}</h4>
+            <h4>Spaces: {{ lesson.spaces }}</h4>
+          </div>
+          <div class="img"></div>
+          <div class="treat-wrapper">
+            <button class="btn draw-border" id="addToCart" v-on:click="reduce(index)">Add to cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+
+  new Vue({
+    el: '#lessons',
+    data: {
+      lessons: [
+        {
+          subject: 'Math',
+          location: 'London',
+          price: 100,
+          spaces: 5
+        },
+        {
+          subject: 'History',
+          location: 'London',
+          price: 200,
+          spaces: 5
+        },
+        {
+          subject: 'English',
+          location: 'London',
+          price: 150,
+          spaces: 5
+        }
+      ]
+    },
+    methods: {
+      reduce: function (index) {
+        this.lessons[index].spaces--;
+        if (this.lessons[index].spaces == 0) {
+          document.getElementById("addToCart").disabled = true;
+          document.getElementById("addToCart").innerHTML = "Not Available";
+        }
+      }
+    }
+  });
+
+  </script>
+</html>
