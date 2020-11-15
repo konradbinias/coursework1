@@ -22,7 +22,7 @@
           </div>
           <div class="img"></div>
           <div class="treat-wrapper">
-            <button class="btn draw-border" id="addToCart" v-on:click="reduce(index)">Add to cart</button>
+            <button class="btn draw-border" :id="'addToCart_' + index" v-on:click="reduce(index)">Add to cart</button>
           </div>
         </div>
 
@@ -103,8 +103,8 @@
       reduce: function (index) {
         this.lessons[index].spaces--;
         if (this.lessons[index].spaces == 0) {
-          document.getElementById("addToCart").disabled = true;
-          document.getElementById("addToCart").innerHTML = "Not Available";
+          document.getElementById("addToCart_"+index).disabled = true;
+          document.getElementById("addToCart_"+index).innerHTML = "Not Available";
         }
       }
     }
