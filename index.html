@@ -31,84 +31,27 @@
   </body>
   
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script>
 
-  new Vue({
-    el: '#lessons',
-    data: {
-      lessons: [
-        {
-          subject: 'Math',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'Biology',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'French',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'Football',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'Guitar',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'History',
-          location: 'London',
-          price: 200,
-          spaces: 5
-        },
-        {
-          subject: 'Chess',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'Basketball',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'German',
-          location: 'London',
-          price: 100,
-          spaces: 5
-        },
-        {
-          subject: 'English',
-          location: 'London',
-          price: 150,
-          spaces: 5
+  <script type="module">
+    import json_lessons from './assets/lessons.js'
+
+    new Vue({
+      el: '#lessons',
+      data() {
+        return {
+          lessons: json_lessons
         }
-      ]
-    },
-    methods: {
-      reduce: function (index) {
-        this.lessons[index].spaces--;
-        if (this.lessons[index].spaces == 0) {
-          document.getElementById("addToCart_"+index).disabled = true;
-          document.getElementById("addToCart_"+index).innerHTML = "Not Available";
+      },
+      methods: {
+        reduce: function (index) {
+          this.lessons[index].spaces--;
+          if (this.lessons[index].spaces == 0) {
+            document.getElementById("addToCart_"+index).disabled = true;
+            document.getElementById("addToCart_"+index).innerHTML = "Not Available";
+          }
         }
       }
-    }
-  });
+    });
 
   </script>
 </html>
