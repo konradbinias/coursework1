@@ -250,5 +250,12 @@ ul li {
 }
 
 #lessons {
-  width: 1800px;
+   width: 1800px;
+}
+
+#sort {
+  float: left;
+  background-color: #ea3201;
+  width: 100px;
+  height: 500px;
 }

@@ -10,7 +10,16 @@
   </head>
 
   <body>
+    <div id="sort">
+      Sort by
+      
+<input type="radio" />
+
+<input type="radio" />
+    </div>
+
     <div id="lessons">
+      
       <div class="card" v-for="(lesson, index) in lessons">
 
         <div class="product-info">
@@ -20,7 +29,7 @@
             <h4>Price: {{ lesson.price }}</h4>
             <h4>Spaces: {{ lesson.spaces }}</h4>
           </div>
-          <div class="img"></div>
+          <img :src="'assets/' + lesson.image" />
           <div class="treat-wrapper">
             <button class="btn draw-border" :id="'addToCart_' + index" v-on:click="reduce(index)">Add to cart</button>
           </div>
