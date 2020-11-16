@@ -55,8 +55,7 @@
         reduce: function (index) {
           this.lessons[index].spaces--;
           if (this.lessons[index].spaces == 0) {
-            document.getElementById("addToCart_"+index).disabled = true;
-            document.getElementById("addToCart_"+index).innerHTML = "Not Available";
+            document.getElementById("addToCart_"+index).style.display = "none";
           }
         }
       }
