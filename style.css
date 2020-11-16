@@ -255,7 +255,16 @@ ul li {
 
 #sort {
   float: left;
-  background-color: #ea3201;
+  padding: 20px;
   width: 100px;
   height: 500px;
+}
+
+#sort p {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#sort input {
+  margin-top: 5px;
 }

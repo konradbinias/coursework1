@@ -11,11 +11,21 @@
 
   <body>
     <div id="sort">
-      Sort by
-      
-<input type="radio" />
+        <p>Sort by</p>
+        <input type="radio" id="subject" name="lesson" value="subject" checked="checked">
+        <label for="subject">Subject</label><br>      
+        <input type="radio" id="location" name="lesson" value="location">
+        <label for="location">Location</label><br>      
+        <input type="radio" id="price" name="lesson" value="price">
+        <label for="price">Price</label><br>      
+        <input type="radio" id="spaces" name="lesson" value="spaces">
+        <label for="spaces">Spaces</label><br>
 
-<input type="radio" />
+        <p>Order</p>
+        <input type="radio" id="ascending" name="order" value="ascending" checked="checked">
+        <label for="ascending">Ascending</label><br>      
+        <input type="radio" id="descending" name="order" value="descending">
+        <label for="descending">Descending</label><br>
     </div>
 
     <div id="lessons">
@@ -44,7 +54,7 @@
   <script type="module">
     import json_lessons from './assets/lessons.js'
 
-    new Vue({
+    var myObject = new Vue({
       el: '#lessons',
       data() {
         return {
@@ -60,6 +70,94 @@
         }
       }
     });
+
+    myObject.lessons.sort(compareSubject);
+
+    document.getElementById("subject").addEventListener("click", sortBySubject, false);
+    document.getElementById("location").addEventListener("click", sortByLocation, false);
+    document.getElementById("price").addEventListener("click", sortByPrice, false);
+    document.getElementById("spaces").addEventListener("click", sortBySpaces, false);
+
+    document.getElementById("ascending").addEventListener("click", sortByAsc, false);
+    document.getElementById("descending").addEventListener("click", sortByDesc, false);
+
+    function compareSubject(a, b) {
+      return a.subject.localeCompare(b.subject);
+    }
+
+    function compareLocation(a, b) {
+      return a.location.localeCompare(b.location);
+    }
+
+    function comparePrice(a, b) {
+      if (a.price < b.price) return -1;
+      else if (a.price > b.price) return 1;
+      else return 0;
+    }
+
+    function compareSpaces(a, b) {
+      if (a.spaces < b.spaces) return -1;
+      else if (a.spaces > b.spaces) return 1;
+      else return 0;
+    }
+
+    function sortBySubject() {
+      document.getElementById("ascending").checked = true;
+      myObject.lessons.sort(compareSubject);
+    }
+
+    function sortBySubjectDesc() {
+      myObject.lessons.sort(compareSubject).reverse();
+    }
+
+    function sortByLocation() {
+      document.getElementById("ascending").checked = true;
+      myObject.lessons.sort(compareLocation);
+    }
+
+    function sortByLocationDesc() {
+      myObject.lessons.sort(compareLocation).reverse();
+    }
+
+    function sortByPrice() {
+      document.getElementById("ascending").checked = true;
+      myObject.lessons.sort(comparePrice);
+    }
+
+    function sortByPriceDesc() {
+      myObject.lessons.sort(comparePrice).reverse();
+    }
+
+    function sortBySpaces() {
+      document.getElementById("ascending").checked = true;
+      myObject.lessons.sort(compareSpaces);
+    }
+
+    function sortBySpacesDesc() {
+      myObject.lessons.sort(compareSpaces).reverse();
+    }
+
+    function sortByAsc() {
+      if(document.getElementById('subject').checked == true)
+        sortBySubject();
+      else if(document.getElementById('location').checked == true)
+        sortByLocation();
+      else if(document.getElementById('price').checked == true)
+        sortByPrice();
+      else if(document.getElementById('spaces').checked == true)
+        sortBySpaces();
+    }
+
+    function sortByDesc() {
+      if(document.getElementById('subject').checked == true)
+        sortBySubjectDesc();
+      else if(document.getElementById('location').checked == true)
+        sortByLocationDesc();
+      else if(document.getElementById('price').checked == true)
+        sortByPriceDesc();
+      else if(document.getElementById('spaces').checked == true)
+        sortBySpacesDesc();
+    }
 
   </script>
 </html>
