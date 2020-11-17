@@ -250,14 +250,14 @@ ul li {
 }
 
 #lessons {
-   width: 1800px;
+  width: 1800px;
 }
 
 #sort {
   float: left;
   padding: 20px;
   width: 100px;
-  height: 500px;
+  height: 480px;
 }
 
 #sort p {
@@ -267,4 +267,10 @@ ul li {
 
 #sort input {
   margin-top: 5px;
+}
+
+#cart_button_div {
+  display: none;
+  clear: both;
+  text-align: center;
 }
