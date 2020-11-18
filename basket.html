@@ -52,8 +52,10 @@
     },
     methods: {
       remove: function (index) {
+        this.lessons.splice(index, 1);
       },
       gotoPage: function (url) {
+        //localStorage.removeItem('lessons');
         window.location.href = url;
       }
     }
