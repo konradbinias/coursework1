@@ -269,7 +269,7 @@ ul li {
   margin-top: 5px;
 }
 
-#cart_button_div {
+.button_div {
   clear: both;
   text-align: center;
 }

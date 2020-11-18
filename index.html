@@ -50,8 +50,8 @@
       </div>
     </div>
 
-    <div id="cart_button_div" v-if="visible_cart_button">
-      <button class="btn draw-border" id="cart_button">Go to your basket</button>
+    <div class="button_div" v-if="visible_cart_button">
+      <button class="btn draw-border" id="cart_button" v-on:click="gotoPage('basket.html')">Go to your basket</button>
     </div>
 
   </div>
@@ -116,6 +116,18 @@
       },
       sortAscDesc: function (event) {
         this.ascDesc = event.target.id;
+      },
+      gotoPage: function (url) {
+        var chosenLessons = [];
+        for (const lesson of this.lessons_from_file) {
+          if (lesson.spaces != 5)
+            chosenLessons.push(lesson);
+        }
+
+        var parsed = JSON.stringify(chosenLessons);
+        localStorage.setItem('lessons', parsed);
+
+        window.location.href = url;
       }
     }
   });
