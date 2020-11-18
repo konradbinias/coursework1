@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta charset="utf-8" />
-    <title>Coursework 1 - Start</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="utf-8" />
+  <title>Coursework 1 - Start</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-  <body>
+<body>
+
+  <div id="content">
+
     <div id="sort">
-        <p>Sort by</p>
-        <input type="radio" id="subject" name="lesson" value="subject" checked="checked">
-        <label for="subject">Subject</label><br>      
-        <input type="radio" id="location" name="lesson" value="location">
-        <label for="location">Location</label><br>      
-        <input type="radio" id="price" name="lesson" value="price">
-        <label for="price">Price</label><br>      
-        <input type="radio" id="spaces" name="lesson" value="spaces">
-        <label for="spaces">Spaces</label><br>
+      <p>Sort by</p>
+      <input type="radio" id="subject" name="lesson" value="subject" checked="checked" @click="sort">
+      <label for="subject">Subject</label><br>
+      <input type="radio" id="location" name="lesson" value="location" @click="sort">
+      <label for="location">Location</label><br>
+      <input type="radio" id="price" name="lesson" value="price" @click="sort">
+      <label for="price">Price</label><br>
+      <input type="radio" id="spaces" name="lesson" value="spaces" @click="sort">
+      <label for="spaces">Spaces</label><br>
 
-        <p>Order</p>
-        <input type="radio" id="ascending" name="order" value="ascending" checked="checked">
-        <label for="ascending">Ascending</label><br>      
-        <input type="radio" id="descending" name="order" value="descending">
-        <label for="descending">Descending</label><br>
+      <p>Order</p>
+      <input type="radio" id="ascending" name="order" value="ascending" checked="checked" @click="sortAscDesc">
+      <label for="ascending">Ascending</label><br>
+      <input type="radio" id="descending" name="order" value="descending" @click="sortAscDesc">
+      <label for="descending">Descending</label><br>
     </div>
 
-    <div id="lessons">
+    <div id="lessons_id">
       <div class="card" v-for="(lesson, index) in lessons">
 
         <div class="product-info">
@@ -47,132 +50,79 @@
       </div>
     </div>
 
-    <div id="cart_button_div">
-      <button class="btn draw-border" id="cart_button">Go to your basket</button>
-    </div>
+  </div>
 
-  </body>
-  
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <div id="cart_button_div">
+    <button class="btn draw-border" id="cart_button">Go to your basket</button>
+  </div>
 
-  <script type="module">
-    import json_lessons from './assets/lessons.js'
+</body>
 
-    var myObject = new Vue({
-      el: '#lessons',
-      data() {
-        return {
-          lessons: json_lessons
-        }
-      },
-      methods: {
-        reduce: function (index) {
-          this.lessons[index].spaces--;
-          if (this.lessons[index].spaces == 0) {
-            document.getElementById("addToCart_"+index).style.display = "none";
-          }
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-          document.getElementById("cart_button_div").style.display = "block";
-        }
+<script type="module">
+  import json_lessons from './assets/lessons.js'
+
+  new Vue({
+    el: '#content',
+    data() {
+      return {
+        lessons_from_file: json_lessons,
+        sortType: 'subject',
+        ascDesc: 'ascending'
       }
-    });
+    },
+    computed: {
+      lessons() {
+        var items = null;
 
-    // Sorting
-    myObject.lessons.sort(compareSubject);
+        if (this.sortType === 'subject') {
+          items = this.lessons_from_file.sort((a, b) => {
+            return a.subject.localeCompare(b.subject);
+          });
+        }
+        else if (this.sortType === 'location') {
+          items = this.lessons_from_file.sort((a, b) => {
+            return a.location.localeCompare(b.location);
+          });
+        }
+        else if (this.sortType === 'price') {
+          items = this.lessons_from_file.sort((a, b) => {
+            if (a.price < b.price) return -1;
+            else if (a.price > b.price) return 1;
+            else return 0;
+          });
+        }
+        else if (this.sortType === 'spaces') {
+          items = this.lessons_from_file.sort((a, b) => {
+            if (a.spaces < b.spaces) return -1;
+            else if (a.spaces > b.spaces) return 1;
+            else return 0;
+          });
+        }
 
-    document.getElementById("subject").addEventListener("click", sortBySubject, false);
-    document.getElementById("location").addEventListener("click", sortByLocation, false);
-    document.getElementById("price").addEventListener("click", sortByPrice, false);
-    document.getElementById("spaces").addEventListener("click", sortBySpaces, false);
+        if (this.ascDesc === 'ascending') return items;
+        else return items.reverse();
+      },
+    },
+    methods: {
+      reduce: function (index) {
+        this.lessons[index].spaces--;
+        if (this.lessons[index].spaces == 0) {
+          document.getElementById("addToCart_" + index).style.display = "none";
+        }
 
-    document.getElementById("ascending").addEventListener("click", sortByAsc, false);
-    document.getElementById("descending").addEventListener("click", sortByDesc, false);
-
-    function compareSubject(a, b) {
-      return a.subject.localeCompare(b.subject);
+        document.getElementById("cart_button_div").style.display = "block";
+      },
+      sort: function (event) {
+        this.sortType = event.target.id;
+      },
+      sortAscDesc: function (event) {
+        this.ascDesc = event.target.id;
+      }
     }
+  });
 
-    function compareLocation(a, b) {
-      return a.location.localeCompare(b.location);
-    }
+</script>
 
-    function comparePrice(a, b) {
-      if (a.price < b.price) return -1;
-      else if (a.price > b.price) return 1;
-      else return 0;
-    }
-
-    function compareSpaces(a, b) {
-      if (a.spaces < b.spaces) return -1;
-      else if (a.spaces > b.spaces) return 1;
-      else return 0;
-    }
-
-    function sortBySubject() {
-      document.getElementById("ascending").checked = true;
-      myObject.lessons.sort(compareSubject);
-    }
-
-    function sortBySubjectDesc() {
-      myObject.lessons.sort(compareSubject).reverse();
-    }
-
-    function sortByLocation() {
-      document.getElementById("ascending").checked = true;
-      myObject.lessons.sort(compareLocation);
-    }
-
-    function sortByLocationDesc() {
-      myObject.lessons.sort(compareLocation).reverse();
-    }
-
-    function sortByPrice() {
-      document.getElementById("ascending").checked = true;
-      myObject.lessons.sort(comparePrice);
-    }
-
-    function sortByPriceDesc() {
-      myObject.lessons.sort(comparePrice).reverse();
-    }
-
-    function sortBySpaces() {
-      document.getElementById("ascending").checked = true;
-      myObject.lessons.sort(compareSpaces);
-    }
-
-    function sortBySpacesDesc() {
-      myObject.lessons.sort(compareSpaces).reverse();
-    }
-
-    function sortByAsc() {
-      if(document.getElementById('subject').checked == true)
-        sortBySubject();
-      else if(document.getElementById('location').checked == true)
-        sortByLocation();
-      else if(document.getElementById('price').checked == true)
-        sortByPrice();
-      else if(document.getElementById('spaces').checked == true)
-        sortBySpaces();
-    }
-
-    function sortByDesc() {
-      if(document.getElementById('subject').checked == true)
-        sortBySubjectDesc();
-      else if(document.getElementById('location').checked == true)
-        sortByLocationDesc();
-      else if(document.getElementById('price').checked == true)
-        sortByPriceDesc();
-      else if(document.getElementById('spaces').checked == true)
-        sortBySpacesDesc();
-    }
-
-    // Go to basket
-    document.getElementById("cart_button").addEventListener("click", goToBasket, false);
-
-    function goToBasket() {
-      alert('DUPA')
-    }
-
-
-  </script>
 </html>
