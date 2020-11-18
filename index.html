@@ -42,7 +42,7 @@
             <h4>Spaces: {{ lesson.spaces }}</h4>
           </div>
           <img :src="'assets/' + lesson.image" />
-          <div class="treat-wrapper">
+          <div class="treat-wrapper" v-if="lessons[index].spaces != 0">
             <button class="btn draw-border" :id="'addToCart_' + index" v-on:click="reduce(index)">Add to cart</button>
           </div>
         </div>
@@ -50,10 +50,10 @@
       </div>
     </div>
 
-  </div>
+    <div id="cart_button_div" v-if="visible_cart_button">
+      <button class="btn draw-border" id="cart_button">Go to your basket</button>
+    </div>
 
-  <div id="cart_button_div">
-    <button class="btn draw-border" id="cart_button">Go to your basket</button>
   </div>
 
 </body>
@@ -69,7 +69,8 @@
       return {
         lessons_from_file: json_lessons,
         sortType: 'subject',
-        ascDesc: 'ascending'
+        ascDesc: 'ascending',
+        visible_cart_button: false
       }
     },
     computed: {
@@ -108,11 +109,7 @@
     methods: {
       reduce: function (index) {
         this.lessons[index].spaces--;
-        if (this.lessons[index].spaces == 0) {
-          document.getElementById("addToCart_" + index).style.display = "none";
-        }
-
-        document.getElementById("cart_button_div").style.display = "block";
+        this.visible_cart_button = true;
       },
       sort: function (event) {
         this.sortType = event.target.id;
