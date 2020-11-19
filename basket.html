@@ -36,6 +36,17 @@
       <button class="btn draw-border" id="back_button" v-on:click="gotoPage('index.html')">Back</button>
     </div>
 
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" v-model="name" v-on:keypress="isLetter($event)">
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" name="phone" v-model="phone" v-on:keypress="isNumber($event)">
+      <button class="btn draw-border" id="checkout_button" v-if="name && phone"
+        v-on:click="showMessage()">Checkout</button>
+
+      <p style="font-weight: 800;font-size: large;">{{ message }}</p>
+    </div>
+
   </div>
 
 </body>
@@ -47,16 +58,32 @@
     el: '#content',
     data() {
       return {
-        lessons: JSON.parse(localStorage.getItem('lessons'))
+        lessons: JSON.parse(localStorage.getItem('lessons')),
+        name: '',
+        phone: '',
+        message: ''
       }
     },
     methods: {
-      remove: function (index) {
+      remove(index) {
         this.lessons.splice(index, 1);
       },
-      gotoPage: function (url) {
+      gotoPage(url) {
         //localStorage.removeItem('lessons');
         window.location.href = url;
+      },
+      isLetter(e) {
+        let char = String.fromCharCode(e.keyCode); // Get the character
+        if (/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+        else e.preventDefault(); // If not match, don't add to input text
+      },
+      isNumber(e) {
+        let char = String.fromCharCode(e.keyCode);
+        if (/^[0-9]+$/.test(char)) return true;
+        else e.preventDefault();
+      },
+      showMessage() {
+        this.message = "Your order has been submitted";
       }
     }
   });
